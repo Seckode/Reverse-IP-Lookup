@@ -31,28 +31,20 @@ if system() == 'Linux':
     os.system('clear')
 if system() == 'Windows':
     os.system('cls')
-url = 'http://api.hackertarget.com/reverseiplookup/?q='
 print "Grabbing reverse site one by one... Start your VPN & Wait until finish...!!!"
-lista = raw_input(" Enter List : ")
-lista = open(lista,'r')
-read = lista.readlines()
-for ip in read:
- ip = ip.rstrip("\n")
- print("Scanning -> "+ip)
- curl = url+ip 
- openurl = urllib2.urlopen(curl)
- read = openurl.read()
- file = open('site.txt','a')
- file.write(read)
- file.close()
- file = open('site.txt','r')
- read = file.readlines()
- file.close()
- os.system('rm site.txt')
- for i in read:
-  i = i.rstrip("\n")
-  file = open('sites.txt','a')
-  i = 'http://'+i
-  file.write(i+"\n")
-  file.close()
-  print(B + " [ + ] Found -> "+O+i)
+def grab(i):
+    try:
+      ch = requests.get('http://api.hackertarget.com/reverseiplookup/?q='+i)
+      if '.' in ch.content:
+        print ch.content
+        open('sites.txt', 'a').write(ch.content)
+        time.sleep(5)
+  
+      else:
+        print "[!] => "+i+'  Problem '
+    except:
+      pass    
+nam=raw_input('file name :')
+with open(nam) as f:
+    for i in f:
+        grab(i)
